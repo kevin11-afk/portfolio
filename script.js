@@ -80,5 +80,46 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Initial reveal
     revealSections();
+
+    // Project modal behavior
+    const modal = document.getElementById('project-modal');
+    const modalTitle = document.getElementById('modal-title');
+    const modalDesc = document.getElementById('modal-desc');
+    const closeBtn = modal && modal.querySelector('.modal-close');
+
+    function openModal(title, desc, opener) {
+        modal.setAttribute('aria-hidden','false');
+        modalTitle.textContent = title;
+        modalDesc.textContent = desc;
+        // store opener to return focus
+        modal._opener = opener;
+        // move focus into modal
+        closeBtn.focus();
+    }
+
+    function closeModal() {
+        modal.setAttribute('aria-hidden','true');
+        if (modal._opener) modal._opener.focus();
+    }
+
+    // click handlers for project buttons
+    const projectBtns = Array.from(document.querySelectorAll('.project-btn'));
+    projectBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            openModal(btn.dataset.title, btn.dataset.desc, btn);
+        });
+        btn.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                openModal(btn.dataset.title, btn.dataset.desc, btn);
+            }
+        });
+    });
+
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    // close on overlay click
+    modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
+    // escape to close
+    document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal(); });
 });
 
