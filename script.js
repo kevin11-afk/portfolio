@@ -121,5 +121,28 @@ document.addEventListener('DOMContentLoaded', function() {
     modal.addEventListener('click', function(e){ if (e.target === modal) closeModal(); });
     // escape to close
     document.addEventListener('keydown', function(e){ if (e.key === 'Escape' && modal.getAttribute('aria-hidden') === 'false') closeModal(); });
+
+    // Skills interactive strip
+    const skillBtns = Array.from(document.querySelectorAll('.skill-btn'));
+
+    // Simple toggle: set aria-pressed and add an active class; also add title for native tooltip
+    skillBtns.forEach(btn => {
+        btn.setAttribute('role','button');
+        btn.setAttribute('tabindex','0');
+        btn.setAttribute('aria-pressed','false');
+        // expose description as title attribute for quick hover tooltip
+        if (btn.dataset && btn.dataset.desc) btn.setAttribute('title', btn.dataset.desc);
+
+        function activate(){
+            const active = btn.getAttribute('aria-pressed') === 'true';
+            btn.setAttribute('aria-pressed', active ? 'false' : 'true');
+            btn.classList.toggle('active', !active);
+        }
+
+        btn.addEventListener('click', activate);
+        btn.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); activate(); }
+        });
+    });
 });
 

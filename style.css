@@ -71,3 +71,16 @@ body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",
   @keyframes float{0%{transform:translateY(0)}50%{transform:translateY(-20px)}100%{transform:translateY(0)}}
 }
 
+/* Skills interactive strip */
+.skill-strip{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:18px}
+.skill-btn{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.03);padding:10px 14px;border-radius:10px;font-size:20px;cursor:pointer}
+.skill-btn:focus{outline:3px solid rgba(14,165,255,0.12);outline-offset:4px}
+.skill-btn:hover,.skill-btn:focus{transform:translateY(-3px);background:rgba(255,255,255,0.035)}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+
+@media (max-width:680px){
+  .skill-panel{min-width:160px}
+}
+
+/* removed skill panel styles (panel moved/removed) */
+
