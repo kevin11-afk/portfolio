@@ -40,6 +40,10 @@ body{font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",
 .projects-img{width:clamp(100px, 22vw, 160px);max-width:100%;height:auto;border-radius:8px;object-fit:cover}
 .projects-card{display:flex;gap:12px;align-items:center}
 .projects-card .info{flex:1}
+.projects-header{color:var(--white);margin-bottom:12px}
+/* Project title and description colors */
+.projects-card .info strong{color:var(--white);display:block;font-size:1.05rem}
+.projects-card .info .muted{color:var(--muted);font-size:0.95rem;margin-top:6px}
 .project-btn{background:transparent;border:0;padding:12px;border-radius:12px;text-align:left;cursor:pointer;width:100%;display:flex;align-items:center}
 .project-btn:focus{outline:3px solid rgba(14,165,255,0.18);outline-offset:4px}
 .project-btn:hover,.project-btn:focus{background:rgba(255,255,255,0.02);transform:translateY(-4px);transition:transform 180ms ease, background 180ms ease}
