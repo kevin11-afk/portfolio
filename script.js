@@ -1,28 +1,84 @@
 // script.js
-// Redirects social icon buttons to their respective URLs
+// Accessible, reduced-motion-friendly handlers
+
+function openLinkInNewTab(url) {
+    try {
+        window.open(url, '_blank', 'noopener');
+    } catch (e) {
+        // fallback
+        location.href = url;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', function() {
     const socialLinks = [
         { selector: '.fa-linkedin', url: 'https://www.linkedin.com/in/kavinilavan-a-342502324/' },
-        { selector: '.fa-github', url: 'https://github.com/kevin11-afk/' },         
+        { selector: '.fa-github', url: 'https://github.com/kevin11-afk/' },
         { selector: '.fa-instagram', url: 'https://www.instagram.com/kavineyy_18' }
     ];
 
-  socialLinks.forEach(link => {
+    socialLinks.forEach(link => {
         const icon = document.querySelector(link.selector);
-        if (icon && icon.parentElement.tagName === 'A') {
+        if (icon && icon.parentElement && icon.parentElement.tagName === 'A') {
             icon.parentElement.addEventListener('click', function(e) {
-                e.preventDefault();
-                window.open(link.url, '_blank');
+                // allow normal behaviour for keyboard+assistive tech
+                if (e instanceof MouseEvent) {
+                    e.preventDefault();
+                    openLinkInNewTab(link.url);
+                }
             });
         }
     });
 
-    var controller = new ScrollMagic.Controller();
-    new ScrollMagic.Scene({
-        duration: document.body.scrollHeight,
-        triggerHook: 0
-    })
-    .setTween("#animated-bg", {y: "50%", ease: "Linear.easeNone"})
-    .addTo(controller);
+    // Reveal sections on scroll (simple and debounced)
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sections = Array.from(document.querySelectorAll('section'));
+
+    function revealSections() {
+        const vh = window.innerHeight;
+        sections.forEach(section => {
+            const rect = section.getBoundingClientRect();
+            if (rect.top < vh - 80) section.classList.add('visible');
+            else section.classList.remove('visible');
+        });
+    }
+
+    // If user prefers reduced motion, avoid any parallax/animated background updates
+    if (!prefersReducedMotion) {
+        // Debounced scroll handler
+        let timeout;
+        window.addEventListener('scroll', function() {
+            revealSections();
+            if (timeout) clearTimeout(timeout);
+            timeout = setTimeout(revealSections, 120);
+        }, { passive: true });
+
+        // gentle animated background movement (very small) without heavy transforms
+        const animatedBg = document.getElementById('animated-bg');
+        if (animatedBg) {
+            let lastY = window.scrollY;
+            let rafScheduled = false;
+            function updateBg() {
+                rafScheduled = false;
+                const delta = window.scrollY - lastY;
+                lastY = window.scrollY;
+                // small, clamped translate to avoid jank
+                const offset = Math.max(Math.min(window.scrollY * 0.02, 30), -30);
+                animatedBg.style.transform = `translateY(${offset}px)`;
+            }
+            window.addEventListener('scroll', function() {
+                if (!rafScheduled) {
+                    rafScheduled = true;
+                    requestAnimationFrame(updateBg);
+                }
+            }, { passive: true });
+        }
+    } else {
+        // User prefers reduced motion: immediately reveal sections without animation
+        sections.forEach(s => s.classList.add('visible'));
+    }
+
+    // Initial reveal
+    revealSections();
 });
+

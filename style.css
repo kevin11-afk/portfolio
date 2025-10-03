@@ -565,7 +565,8 @@ span {
     z-index: -1;
     background: linear-gradient(120deg, #232526, #414141, #181624, #141414);
     background-size: 400% 400%;
-    animation: gradientMove 15s ease infinite;
+    /* animation disabled to avoid distracting motion while scrolling */
+    animation: none !important;
 }
 @keyframes gradientMove {
     0% {background-position: 0% 50%;}

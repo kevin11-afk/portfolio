@@ -38,10 +38,24 @@
     section.visible {
         opacity: 1;
         transform: translateX(0);
-        box-shadow: 0 16px 48px rgba(40,40,60,0.28), 0 3px 16px rgba(0,0,0,0.22);
+    box-shadow: 0 16px 48px rgba(40,40,60,0.28), 0 3px 16px rgba(0,0,0,0.22);
     }
     body {
         transition: background 1.2s cubic-bezier(.25,.8,.25,1);
+    }
+  /* Remove mobile tap highlight and touch callout to avoid greenish overlay on touch */
+  html, body, a, button, img, .nav-btn, .contact-btn, .project-card, .home-img img {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-touch-callout: none; /* disable iOS long-press menu */
+    touch-action: manipulation; /* hint to browsers to avoid default double-tap behaviors */
+  }
+    /* Respect users who prefer reduced motion to avoid jarring scroll effects */
+    @media (prefers-reduced-motion: reduce) {
+        * {
+            transition: none !important;
+            animation: none !important;
+            scroll-behavior: auto !important;
+        }
     }
     </style>
 </head>
@@ -81,7 +95,7 @@ My vision is to grow as a developer and innovator who creates solutions that are
             </ul>
         </div>
         <div class="resume-section" style="text-align:center; margin: 3rem 0;">
-            <a href="Kavin's resume.pdf" target="_blank" class="btn" style="display:inline-block; font-size:1.8rem; padding:1.2rem 2.5rem; margin-top:1rem;">
+            <a href="Kavin%27s%20resume.pdf" target="_blank" class="btn" style="display:inline-block; font-size:1.8rem; padding:1.2rem 2.5rem; margin-top:1rem;">
                 View My Resume
             </a>
         </div>
@@ -178,155 +192,7 @@ My vision is to grow as a developer and innovator who creates solutions that are
       &copy; 2025 Kavinilavan. All rights reserved.
     </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ScrollMagic/2.0.8/ScrollMagic.min.js"></script>
-    <script>
-        // Reveal sections on scroll
-        function revealSectionsOnScroll() {
-          const sections = document.querySelectorAll('section');
-          const windowHeight = window.innerHeight;
-          sections.forEach(section => {
-            const sectionTop = section.getBoundingClientRect().top;
-            if (sectionTop < windowHeight - 60) {
-              section.classList.add('visible');
-            } else {
-              section.classList.remove('visible');
-            }
-          });
-        }
-        window.addEventListener('scroll', revealSectionsOnScroll);
-        window.addEventListener('DOMContentLoaded', revealSectionsOnScroll);
-    </script>
-    <script>
-        // Interactive scroll section animation
-        function interactiveSectionShowcase() {
-          const sections = document.querySelectorAll('section');
-          const windowHeight = window.innerHeight;
-          sections.forEach((section, idx) => {
-            const sectionTop = section.getBoundingClientRect().top;
-            if (sectionTop < windowHeight - 60) {
-              section.classList.add('visible');
-              // Add a slight staggered animation for each section
-              section.style.transitionDelay = (idx * 0.15) + 's';
-              section.style.transform = 'translateX(0) scale(1.03)';
-              section.style.boxShadow = '0 8px 32px rgba(143,0,255,0.18), 0 1.5px 8px rgba(0,0,0,0.12)';
-              section.style.opacity = '1';
-            } else {
-              section.classList.remove('visible');
-              section.style.transitionDelay = '0s';
-              section.style.transform = 'translateX(-80px) scale(0.98)';
-              section.style.boxShadow = 'none';
-              section.style.opacity = '0.7';
-            }
-          });
-        }
-        window.addEventListener('scroll', interactiveSectionShowcase);
-        window.addEventListener('DOMContentLoaded', interactiveSectionShowcase);
-    </script>
-    <script>
-    // Remove previous dynamic background and particle code
-    // Add a new interactive effect: ripple effect on mouse click
-    function createRipple(x, y) {
-      const ripple = document.createElement('div');
-      ripple.className = 'ripple-effect';
-      ripple.style.position = 'fixed';
-      ripple.style.left = (x - 40) + 'px';
-      ripple.style.top = (y - 40) + 'px';
-      ripple.style.width = ripple.style.height = '80px';
-      ripple.style.borderRadius = '50%';
-      ripple.style.background = 'rgba(0,180,255,0.25)';
-      ripple.style.pointerEvents = 'none';
-      ripple.style.zIndex = '999';
-      ripple.style.transform = 'scale(0)';
-      ripple.style.transition = 'transform 0.6s, opacity 0.8s';
-      document.body.appendChild(ripple);
-      setTimeout(() => {
-        ripple.style.transform = 'scale(2)';
-        ripple.style.opacity = '0';
-      }, 10);
-      setTimeout(() => {
-        ripple.remove();
-      }, 800);
-    }
-    window.addEventListener('click', function(e) {
-      createRipple(e.clientX, e.clientY);
-    });
-    </script>
-    <script>
-    // Fade in/out effect for body and sections while scrolling
-    let lastScrollY = window.scrollY;
-    function handleFadeOnScroll() {
-      const body = document.body;
-      const sections = document.querySelectorAll('section');
-      const currentScrollY = window.scrollY;
-      if (Math.abs(currentScrollY - lastScrollY) > 10) {
-        body.classList.remove('fade-in');
-        body.classList.add('fade-out');
-        sections.forEach(s => {
-          s.classList.remove('fade-in');
-          s.classList.add('fade-out');
-        });
-      } else {
-        body.classList.remove('fade-out');
-        body.classList.add('fade-in');
-        sections.forEach(s => {
-          s.classList.remove('fade-out');
-          s.classList.add('fade-in');
-        });
-      }
-      lastScrollY = currentScrollY;
-    }
-    window.addEventListener('scroll', () => {
-      handleFadeOnScroll();
-      // Restore fade-in after scrolling stops
-      clearTimeout(window._fadeTimeout);
-      window._fadeTimeout = setTimeout(() => {
-        document.body.classList.remove('fade-out');
-        document.body.classList.add('fade-in');
-        document.querySelectorAll('section').forEach(s => {
-          s.classList.remove('fade-out');
-          s.classList.add('fade-in');
-        });
-      }, 400);
-    });
-    window.addEventListener('DOMContentLoaded', () => {
-      document.body.classList.add('fade-in');
-      document.querySelectorAll('section').forEach(s => s.classList.add('fade-in'));
-    });
-    </script>
-    <script>
-    // Slide in on scroll and color shift on scroll
-    function slideInSectionsAndColorShift() {
-      const sections = document.querySelectorAll('section');
-      const windowHeight = window.innerHeight;
-      let colorShift = 0;
-      sections.forEach((section, idx) => {
-        const sectionTop = section.getBoundingClientRect().top;
-        if (sectionTop < windowHeight - 60) {
-          section.classList.add('visible');
-        } else {
-          section.classList.remove('visible');
-        }
-        // Color shift based on scroll position
-        colorShift += Math.max(0, windowHeight - sectionTop) * 0.0005;
-      });
-      // Calculate a color based on scroll position
-      const r = Math.floor(24 + Math.sin(colorShift) * 40);
-      const g = Math.floor(22 + Math.cos(colorShift) * 40);
-      const b = Math.floor(36 + Math.sin(colorShift * 0.7) * 40);
-      document.body.style.background = `linear-gradient(120deg, rgb(${r},${g},${b}), #232526 80%)`;
-    }
-    window.addEventListener('scroll', slideInSectionsAndColorShift);
-    window.addEventListener('DOMContentLoaded', slideInSectionsAndColorShift);
-    </script>
-    <script>
-    // Parallax effect for background
-    window.addEventListener('scroll', function() {
-      const parallax = document.querySelector('.parallax-bg');
-      if (parallax) {
-        const offset = window.scrollY * 0.3;
-        parallax.style.transform = `translateY(${offset}px)`;
-      }
-    });
-    </script>
+        <script src="script.js"></script>
+    
 </body>
 </html>
